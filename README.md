@@ -1,9 +1,10 @@
 # JWLaunchAd
 一行代码集成启动广告图
 ![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/gif.gif)
-    //设置启动页广告图片的url
-    NSString *imgUrlString =@"http://imgstore.cdn.sogou.com/app/a/100540002/714860.jpg";
     
+    
+    //设置启动页广告图片的url
+    NSString *imgUrlString =@"";
     //初始化启动页广告(初始化后,自动添加至视图,不用手动添加)
     JWLaunchAd *launchAd = [JWLaunchAd initImageWithURL:CGRectMake(0, 0,self.window.bounds.size.width, self.window.bounds.size.height-150) strUrl:imgUrlString adDuration:10.0 options:JWWebImageDefault result:^(UIImage *image, NSURL *url) {
         //异步加载图片完成回调(若需根据图片实际尺寸,刷新广告frame,可在这里操作)
