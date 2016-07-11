@@ -1,6 +1,6 @@
 # JWLaunchAd
 一行代码集成启动广告图
-
+![image](https://github.com/JWXIAN/JWScrollView/blob/master/gif.gif)
     //设置启动页广告图片的url
     NSString *imgUrlString =@"http://imgstore.cdn.sogou.com/app/a/100540002/714860.jpg";
     
