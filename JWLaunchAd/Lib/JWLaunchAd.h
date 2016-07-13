@@ -63,6 +63,10 @@ typedef void (^JWLaunchAdClickBlock)();
 + (instancetype)initImageWithURL:(CGRect)frame strUrl:(NSString *)strUrl adDuration:(NSInteger)adDuration options:(JWWebImageOptions)options result:(JWWebImageCompletionBlock)result;
 
 /**
+ *  清理缓冲
+ */
++ (void)clearDiskCache;
+/**
  *  内部初始化 - 无需调用
  *
  *  @param frame      frame

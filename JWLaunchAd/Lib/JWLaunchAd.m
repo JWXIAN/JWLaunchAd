@@ -182,6 +182,15 @@
     [launchAd.adImgView jw_setImageWithURL:[NSURL URLWithString:strUrl] placeholderImage:nil options:options completed:result];
     return launchAd;
 }
+#pragma mark - 清理缓冲
++ (void)clearDiskCache{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSString *path = [JWWebImageDownloader cacheImagePath];
+        [fileManager removeItemAtPath:path error:nil];
+        [JWWebImageDownloader checkDirectory:path];
+    });
+}
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
