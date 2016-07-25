@@ -30,7 +30,7 @@
     
     //设置启动页广告图片的url
 //    NSString *imgUrlString =@"http://imgstore.cdn.sogou.com/app/a/100540002/714860.jpg";
-    //Gif
+    //GIF
     NSString *gifUrlString = @"http://img1.imgtn.bdimg.com/it/u=473895314,616407725&fm=206&gp=0.jpg";
     
     //初始化启动页广告(初始化后,自动添加至视图,不用手动添加)

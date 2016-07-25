@@ -49,6 +49,7 @@ typedef void (^JWLaunchAdClickBlock)();
  *  广告点击事件回调
  */
 @property(nonatomic,copy)JWLaunchAdClickBlock clickBlock;
+
 /**
  *  初始化启动页广告
  *
@@ -66,6 +67,7 @@ typedef void (^JWLaunchAdClickBlock)();
  *  清理缓冲
  */
 + (void)clearDiskCache;
+
 /**
  *  内部初始化 - 无需调用
  *

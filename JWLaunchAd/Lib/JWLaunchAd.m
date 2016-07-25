@@ -64,6 +64,7 @@
     }
     return _launchImgView;
 }
+
 -(UIImageView *)adImgView{
     if(!_adImgView){
         _adImgView = [[UIImageView alloc] initWithFrame:_adFrame];
@@ -74,6 +75,7 @@
     }
     return _adImgView;
 }
+
 -(UIButton *)skipButton{
     if(!_skipButton){
         _skipButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -90,6 +92,7 @@
     }
     return _skipButton;
 }
+
 -(void)addInWindow{
     //监测DidFinished通知
     [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidFinishLaunchingNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
@@ -99,9 +102,11 @@
         });
     }];
 }
+
 -(void)skipAction{
     [self remove];
 }
+
 -(void)animateStart{
     CGFloat duration = DefaultDuration;
     if(_adDuration) duration = _adDuration;
@@ -112,6 +117,7 @@
     } completion:^(BOOL finished) {
     }];
 }
+
 -(void)dispath_tiemr{
     NSTimeInterval period = 1.0;//每秒执行
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -130,6 +136,7 @@
     });
     dispatch_resume(_timer);
 }
+
 -(void)animateEnd{
     CGFloat duration = DefaultDuration;
     if(_adDuration) duration = _adDuration;
@@ -137,6 +144,7 @@
         [self remove];
     });
 }
+
 -(void)remove{
     [UIView animateWithDuration:0.8 animations:^{
         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
@@ -146,11 +154,13 @@
         [self removeFromSuperview];
     }];
 }
+
 -(void)tapAction:(UITapGestureRecognizer *)tap{
     if(self.clickBlock){
         self.clickBlock();
     }
 }
+
 -(UIImage *)launchImage{
     CGSize viewSize = [UIScreen mainScreen].bounds.size;
     NSString *viewOrientation = @"Portrait";//横屏 @"Landscape"
@@ -167,10 +177,12 @@
     DebugLog(@"请添加启动图片");
     return nil;
 }
+
 -(void)setAdFrame:(CGRect)adFrame{
     _adFrame = adFrame;
     _adImgView.frame = adFrame;
 }
+
 -(void)setHideSkip:(BOOL)hideSkip{
     _hideSkip = hideSkip;
     _skipButton.hidden = hideSkip;
@@ -182,6 +194,7 @@
     [launchAd.adImgView jw_setImageWithURL:[NSURL URLWithString:strUrl] placeholderImage:nil options:options completed:result];
     return launchAd;
 }
+
 #pragma mark - 清理缓冲
 + (void)clearDiskCache{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -191,6 +204,7 @@
         [JWWebImageDownloader checkDirectory:path];
     });
 }
+
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }

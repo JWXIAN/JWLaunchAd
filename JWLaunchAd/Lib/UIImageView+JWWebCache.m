@@ -39,12 +39,14 @@
 static char imageURLKey;
 
 @implementation JWWebImageDownloader
+
 #pragma mark - 缓冲目录
 + (NSString *)cacheImagePath{
     NSString *path =[NSHomeDirectory() stringByAppendingPathComponent:@"Library/JWLaunchAdCache"];
     [self checkDirectory:path];
     return path;
 }
+
 #pragma mark - 检查目录
 + (void)checkDirectory:(NSString *)path{
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -59,6 +61,7 @@ static char imageURLKey;
         }
     }
 }
+
 #pragma mark - 得到图片缓冲
 +(UIImage *)getCacheImageWithURL:(NSURL *)url{
     if(!url) return nil;
@@ -67,6 +70,7 @@ static char imageURLKey;
                       directoryPath,[self md5String:url.absoluteString]];
     return [UIImage jw_gifWithData:[NSData dataWithContentsOfFile:path]];
 }
+
 #pragma mark - 刷新图片缓冲
 +(void)saveImage:(NSData *)data imageURL:(NSURL *)url{
     NSString *path = [NSString stringWithFormat:@"%@/%@",[self cacheImagePath],[self md5String:url.absoluteString]];
@@ -75,6 +79,7 @@ static char imageURLKey;
         if (!isOk) DebugLog(@"cache file error for URL: %@", url);
     }
 }
+
 #pragma mark - 在目录创建文件
 + (void)createBaseDirectoryAtPath:(NSString *)path {
     __autoreleasing NSError *error = nil;
@@ -93,6 +98,7 @@ static char imageURLKey;
         }
     }
 }
+
 #pragma mark - URL MD5
 + (NSString *)md5String:(NSString *)string {
     if(string == nil || [string length] == 0)  return nil;
@@ -106,6 +112,7 @@ static char imageURLKey;
     return outputString;
 }
 @end
+
 #pragma mark - 新增GIF图片显示
 @implementation UIImage(GIF)
 + (UIImage *)jw_gifWithData:(NSData *)data{
@@ -146,15 +153,19 @@ static char imageURLKey;
     return gifImage;
 }
 @end
+
 @implementation UIImageView (JWWebCache)
+
 #pragma mark - AssociatedObject
 - (NSURL *)jw_imageURL{
     return objc_getAssociatedObject(self, &imageURLKey);
 }
+
 #pragma mark - WebCache
 - (void)jw_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholderImage completed:(JWWebImageCompletionBlock)completedBlock{
     [self jw_setImageWithURL:url placeholderImage:placeholderImage options:JWWebImageDefault completed:completedBlock];
 }
+
 - (void)jw_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholderImage options:(JWWebImageOptions)options completed:(JWWebImageCompletionBlock)completedBlock{
     if (placeholderImage) self.image = placeholderImage;
     if (url) {
@@ -184,6 +195,7 @@ static char imageURLKey;
         }];
     }
 }
+
 #pragma mark - 异步加载图片
 - (void)dispatch_async:(NSURL *)url result:(JWDispatch_asyncBlock)result{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
