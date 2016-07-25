@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		7F4C6ADD1D33764E00A92729 /* JWLaunchAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F4C6ADC1D33764E00A92729 /* JWLaunchAd.m */; };
 		7F4C6AE01D3376A800A92729 /* UIImageView+JWWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F4C6ADF1D3376A800A92729 /* UIImageView+JWWebCache.m */; };
-		7F6C2E0B1D45C0CA0045728B /* HomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F6C2E0A1D45C0CA0045728B /* HomeVC.m */; };
 		7F76015F1D2F7D5D00DD8465 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F76015E1D2F7D5D00DD8465 /* main.m */; };
 		7F7601621D2F7D5D00DD8465 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F7601611D2F7D5D00DD8465 /* AppDelegate.m */; };
 		7F7601651D2F7D5D00DD8465 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F7601641D2F7D5D00DD8465 /* ViewController.m */; };
@@ -42,8 +41,6 @@
 		7F4C6ADC1D33764E00A92729 /* JWLaunchAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JWLaunchAd.m; sourceTree = "<group>"; };
 		7F4C6ADE1D3376A800A92729 /* UIImageView+JWWebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+JWWebCache.h"; sourceTree = "<group>"; };
 		7F4C6ADF1D3376A800A92729 /* UIImageView+JWWebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+JWWebCache.m"; sourceTree = "<group>"; };
-		7F6C2E091D45C0CA0045728B /* HomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeVC.h; sourceTree = "<group>"; };
-		7F6C2E0A1D45C0CA0045728B /* HomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeVC.m; sourceTree = "<group>"; };
 		7F76015A1D2F7D5C00DD8465 /* JWLaunchAd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JWLaunchAd.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F76015E1D2F7D5D00DD8465 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7F7601601D2F7D5D00DD8465 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -131,8 +128,6 @@
 				7F76016B1D2F7D5D00DD8465 /* LaunchScreen.storyboard */,
 				7F76016E1D2F7D5D00DD8465 /* Info.plist */,
 				7F76015D1D2F7D5D00DD8465 /* Supporting Files */,
-				7F6C2E091D45C0CA0045728B /* HomeVC.h */,
-				7F6C2E0A1D45C0CA0045728B /* HomeVC.m */,
 			);
 			path = JWLaunchAd;
 			sourceTree = "<group>";
@@ -296,7 +291,6 @@
 				7F7601651D2F7D5D00DD8465 /* ViewController.m in Sources */,
 				7F7601621D2F7D5D00DD8465 /* AppDelegate.m in Sources */,
 				7F4C6ADD1D33764E00A92729 /* JWLaunchAd.m in Sources */,
-				7F6C2E0B1D45C0CA0045728B /* HomeVC.m in Sources */,
 				7F76015F1D2F7D5D00DD8465 /* main.m in Sources */,
 				7F4C6AE01D3376A800A92729 /* UIImageView+JWWebCache.m in Sources */,
 			);
