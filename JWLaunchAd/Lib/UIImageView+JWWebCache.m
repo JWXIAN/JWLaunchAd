@@ -27,6 +27,8 @@
 #import "UIImageView+JWWebCache.h"
 #import "objc/runtime.h"
 #import <CommonCrypto/CommonDigest.h>
+#import <ImageIO/ImageIO.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 
 #ifdef DEBUG
 #define DebugLog(...) NSLog(__VA_ARGS__)
@@ -63,11 +65,10 @@ static char imageURLKey;
     NSString *directoryPath = [self cacheImagePath];
     NSString *path = [NSString stringWithFormat:@"%@/%@",
                       directoryPath,[self md5String:url.absoluteString]];
-    return [UIImage imageWithContentsOfFile:path];
+    return [UIImage jw_gifWithData:[NSData dataWithContentsOfFile:path]];
 }
 #pragma mark - 刷新图片缓冲
-+(void)saveImage:(UIImage *)image imageURL:(NSURL *)url{
-    NSData *data = UIImagePNGRepresentation(image);
++(void)saveImage:(NSData *)data imageURL:(NSURL *)url{
     NSString *path = [NSString stringWithFormat:@"%@/%@",[self cacheImagePath],[self md5String:url.absoluteString]];
     if (data) {
         BOOL isOk = [[NSFileManager defaultManager] createFileAtPath:path contents:data attributes:nil];
@@ -105,7 +106,46 @@ static char imageURLKey;
     return outputString;
 }
 @end
-
+#pragma mark - 新增GIF图片显示
+@implementation UIImage(GIF)
++ (UIImage *)jw_gifWithData:(NSData *)data{
+    if (!data) {
+        return nil;
+    }
+    UIImage *gifImage;
+    CGImageSourceRef imgSource = CGImageSourceCreateWithData((CFDataRef)data, NULL);
+    if (imgSource == NULL) {
+        fprintf(stderr, "Image source is NULL\n");
+    } else {
+        CFStringRef imgType = CGImageSourceGetType(imgSource);
+        // make sure the image's format is GIF
+        if ([(__bridge NSString *)imgType isEqualToString:(NSString *)kUTTypeGIF]) {
+            // how many frames in the gif image
+            size_t frameCount = CGImageSourceGetCount(imgSource);
+            NSMutableArray *frames = [NSMutableArray arrayWithCapacity:frameCount];
+            NSTimeInterval animationDuration = 0.0;
+            for (size_t i = 0; i < frameCount; i++) {
+                CFDictionaryRef propertyDic = CGImageSourceCopyPropertiesAtIndex(imgSource, i, NULL);
+                // change the animation duration
+                CFDictionaryRef gifDic = CFDictionaryGetValue(propertyDic, kCGImagePropertyGIFDictionary);
+                CFStringRef delayTimeRef = CFDictionaryGetValue(gifDic, kCGImagePropertyGIFDelayTime);
+                animationDuration += [(__bridge NSString *)delayTimeRef doubleValue];
+                CFRelease(propertyDic);
+                CGImageRef imgRef = CGImageSourceCreateImageAtIndex(imgSource, i, NULL);
+                if (imgRef) {
+                    [frames addObject:[UIImage imageWithCGImage:imgRef scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp]];
+                    CGImageRelease(imgRef);
+                }
+            }
+            gifImage = [UIImage animatedImageWithImages:frames duration:animationDuration];
+        } else {
+            gifImage = [[UIImage alloc] initWithData:data];
+        }
+        CFRelease(imgSource);
+    }
+    return gifImage;
+}
+@end
 @implementation UIImageView (JWWebCache)
 #pragma mark - AssociatedObject
 - (NSURL *)jw_imageURL{
@@ -123,7 +163,7 @@ static char imageURLKey;
         if(!options) options = JWWebImageDefault;
         //只加载,不缓存
         if(options&JWWebImageOnlyLoad){
-            [self dispatch_async:url result:^(UIImage *image, NSURL *url) {
+            [self dispatch_async:url result:^(UIImage *image, NSURL *url, NSData *data) {
                 weakSelf.image = image;
                 if(image&&completedBlock) completedBlock(image, url);
             }];
@@ -137,19 +177,20 @@ static char imageURLKey;
             if(options&JWWebImageDefault) return;
         }
         //先读缓存,再加载刷新图片和缓存
-        [self dispatch_async:url result:^(UIImage *image, NSURL *url) {
+        [self dispatch_async:url result:^(UIImage *image, NSURL *url, NSData *data) {
             weakSelf.image = image;
             if(image&&completedBlock) completedBlock(image,url);
-            [JWWebImageDownloader saveImage:image imageURL:url];
+            [JWWebImageDownloader saveImage:data imageURL:url];
         }];
     }
 }
 #pragma mark - 异步加载图片
 - (void)dispatch_async:(NSURL *)url result:(JWDispatch_asyncBlock)result{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+        NSData *data = [NSData dataWithContentsOfURL:url];
+        UIImage *image = [UIImage jw_gifWithData:data];
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (result) result(image,url);
+            if (result) result(image,url, data);
         });
     });
 }

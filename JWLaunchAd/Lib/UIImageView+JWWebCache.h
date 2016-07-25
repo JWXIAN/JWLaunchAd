@@ -33,7 +33,7 @@ typedef NS_OPTIONS(NSUInteger, JWWebImageOptions) {
 };
 
 typedef void(^JWWebImageCompletionBlock)(UIImage *image, NSURL *url);
-typedef void(^JWDispatch_asyncBlock)(UIImage *image, NSURL *url);
+typedef void(^JWDispatch_asyncBlock)(UIImage *image, NSURL *url, NSData *data);
 
 @interface JWWebImageDownloader : NSObject
 
@@ -49,6 +49,17 @@ typedef void(^JWDispatch_asyncBlock)(UIImage *image, NSURL *url);
  *  @param path 路径
  */
 +(void)checkDirectory:(NSString *)path;
+@end
+
+@interface UIImage(GIF)
+/**
+ *  NSData -> UIImage
+ *
+ *  @param data Data
+ *
+ *  @return UIImage
+ */
++ (UIImage *)jw_gifWithData:(NSData *)data;
 @end
 
 @interface UIImageView (JWWebCache)

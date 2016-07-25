@@ -23,15 +23,21 @@
     self.window.backgroundColor = [UIColor whiteColor];
     
     //设置window 根控制器
-    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[ViewController alloc] init]];
+    ViewController *view = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ViewController"];
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:view];
+    //清理缓存
+//    [JWLaunchAd clearDiskCache];
     
     //设置启动页广告图片的url
-    NSString *imgUrlString =@"http://imgstore.cdn.sogou.com/app/a/100540002/714860.jpg";
+//    NSString *imgUrlString =@"http://imgstore.cdn.sogou.com/app/a/100540002/714860.jpg";
+    //Gif
+    NSString *gifUrlString = @"http://img1.imgtn.bdimg.com/it/u=473895314,616407725&fm=206&gp=0.jpg";
     
     //初始化启动页广告(初始化后,自动添加至视图,不用手动添加)
-    JWLaunchAd *launchAd = [JWLaunchAd initImageWithURL:CGRectMake(0, 0,self.window.bounds.size.width, self.window.bounds.size.height-150) strUrl:imgUrlString adDuration:10.0 options:JWWebImageDefault result:^(UIImage *image, NSURL *url) {
+    JWLaunchAd *launchAd = [JWLaunchAd initImageWithURL:CGRectMake(0, 0,self.window.bounds.size.width, self.window.bounds.size.height-150) strUrl:gifUrlString adDuration:10.0 options:JWWebImageDefault result:^(UIImage *image, NSURL *url) {
         NSLog(@"%@", url);
     }];
+
     //是否隐藏跳过按钮（默认显示）
     launchAd.hideSkip = NO;
     //广告点击事件
