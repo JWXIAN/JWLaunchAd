@@ -2,6 +2,7 @@
 一行代码集成启动广告图
 
 ![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/gif.gif)
+![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/gif2.gif)
     
     
     //设置启动页广告图片的url
