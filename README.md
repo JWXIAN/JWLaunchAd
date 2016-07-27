@@ -5,10 +5,14 @@
 [![AppVeyor](https://img.shields.io/appveyor/ci/gruntjs/grunt.svg?maxAge=2592000)](https://github.com/JWXIAN/MVCProject)
 [![Bintray](https://img.shields.io/badge/version-1.1-brightgreen.svg)](https://github.com/JWXIAN/MVCProject)
 
+--
+
+效果图
+--
 ![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/gif.gif)
 ![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/gif2.gif)
-    
-    
+
+--
     //设置启动页广告图片的url
     NSString *imgUrlString =@"";
     //初始化启动页广告(初始化后,自动添加至视图,不用手动添加)
