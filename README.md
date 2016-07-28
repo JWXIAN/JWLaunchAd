@@ -22,7 +22,7 @@
         NSLog(@"%@", url);
     }];
     //是否隐藏跳过按钮（默认显示）
-    launchAd.hideSkip = NO;
+    <!--launchAd.hideSkip = YES;-->
     //广告点击事件
     launchAd.clickBlock = ^(){
         NSString *url = @"https://www.baidu.com";
