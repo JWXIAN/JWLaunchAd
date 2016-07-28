@@ -130,7 +130,7 @@
     dispatch_source_set_event_handler(_timer, ^{
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            duration--;
+            if(duration>0) duration--;
             [_skipButton setTitle:[NSString stringWithFormat:@"%ld 跳过",duration] forState:UIControlStateNormal];
         });
     });
