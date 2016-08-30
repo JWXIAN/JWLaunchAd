@@ -19,16 +19,16 @@
       在项目中设置`Launch Images Source`,并将`Launch Screen File`清空<br>
       ![image]()
  
- #### 2.在LaunchImage 添加相应启动图片<br>
+  #### 2.在LaunchImage 添加相应启动图片<br>
   *    ![image]()
  
- #### 3.在AppDelegate中设置window.rootViewController之后调用下面方法
+  #### 3.在AppDelegate中设置window.rootViewController之后调用下面方法
 
-    //1.设置启动页广告图片的url
-    NSString *imgUrlString =@"http://imgstore.cdn.sogou.com/app/a/100540002/714860.jpg";
+
+     //1.设置启动页广告图片的url
+     NSString *imgUrlString =@"http://imgstore.cdn.sogou.com/app/a/100540002/714860.jpg";
     //支持Gif
     //NSString *imgUrlString = @"http://img1.imgtn.bdimg.com/it/u=473895314,616407725&fm=206&gp=0.jpg";
-    
     //2.初始化启动页广告(初始化后,自动添加至视图,不用手动添加)
     [JWLaunchAd initImageWithAttribute:10.0 hideSkip:NO setLaunchAd:^(JWLaunchAd *launchAd) {
         __block JWLaunchAd *weakSelf = launchAd;
