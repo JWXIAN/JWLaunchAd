@@ -13,17 +13,16 @@
 
 --
   使用方法
+--
    1.设置项目启动页为LaunchImage
-      设置方法:在Assets.xcassets中新建LaunchImage<br>
-      在项目中设置`Launch Images Source`,并将`Launch Screen File`清空<br>
-      ![image]()
+   设置方法:在Assets.xcassets中新建LaunchImage<br>
+   在项目中设置`Launch Images Source`,并将`Launch Screen File`清空
+   ![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/launchImage.png)
  
    2.在LaunchImage 添加相应启动图片<br>
-    ![image]()
+   ![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/assets.png)
  
    3.在AppDelegate中设置window.rootViewController之后调用下面方法
-   
---
 
      //1.设置启动页广告图片的url
      NSString *imgUrlString =@"http://imgstore.cdn.sogou.com/app/a/100540002/714860.jpg";
