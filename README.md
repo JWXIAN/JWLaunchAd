@@ -3,7 +3,7 @@
 
 [![Support](https://img.shields.io/badge/support-iOS%207%2B-brightgreen.svg)](https://github.com/JWXIAN/MVCProject)
 [![AppVeyor](https://img.shields.io/appveyor/ci/gruntjs/grunt.svg?maxAge=2592000)](https://github.com/JWXIAN/MVCProject)
-[![Bintray](https://img.shields.io/badge/version-1.1-brightgreen.svg)](https://github.com/JWXIAN/MVCProject)
+[![Bintray](https://img.shields.io/badge/version-1.2-brightgreen.svg)](https://github.com/JWXIAN/MVCProject)
 
 --
 
@@ -13,18 +13,20 @@
 ![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/gif2.gif)
 
 --
-    //设置启动页广告图片的url
-    NSString *imgUrlString =@"";
-    //初始化启动页广告(初始化后,自动添加至视图,不用手动添加)
-    JWLaunchAd *launchAd = [JWLaunchAd initImageWithURL:CGRectMake(0, 0,self.window.bounds.size.width, self.window.bounds.size.height-150) strUrl:imgUrlString adDuration:10.0 options:JWWebImageDefault result:^(UIImage *image, NSURL *url) {
-        //异步加载图片完成回调(若需根据图片实际尺寸,刷新广告frame,可在这里操作)
-        //launchAd.adFrame = ...;
-        NSLog(@"%@", url);
+    //1.设置启动页广告图片的url
+    NSString *imgUrlString =@"http://imgstore.cdn.sogou.com/app/a/100540002/714860.jpg";
+    //支持Gif
+    //NSString *imgUrlString = @"http://img1.imgtn.bdimg.com/it/u=473895314,616407725&fm=206&gp=0.jpg";
+    
+    //2.初始化启动页广告(初始化后,自动添加至视图,不用手动添加)
+    [JWLaunchAd initImageWithAttribute:10.0 hideSkip:NO setLaunchAd:^(JWLaunchAd *launchAd) {
+        __block JWLaunchAd *weakSelf = launchAd;
+        [launchAd setWebImageWithURL:imgUrlString options:JWWebImageDefault result:^(UIImage *image, NSURL *url) {
+            //3.异步加载图片完成回调(设置图片尺寸)
+            weakSelf.adFrame = CGRectMake(0, 0, kScreen_Width, kScreen_Height-150);
+        } adClickBlock:^{
+            //4.点击广告回调
+            NSString *url = @"https://www.baidu.com";
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+        }];
     }];
-    //是否隐藏跳过按钮（默认显示）
-    <!--launchAd.hideSkip = YES;-->
-    //广告点击事件
-    launchAd.clickBlock = ^(){
-        NSString *url = @"https://www.baidu.com";
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
-    };
