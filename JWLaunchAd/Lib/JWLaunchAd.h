@@ -26,42 +26,22 @@
 
 #import <UIKit/UIKit.h>
 #import "UIImageView+JWWebCache.h"
+
+@class JWLaunchAd;
 typedef void (^JWLaunchAdClickBlock)();
+typedef void (^JWSetLaunchAdBlock)(JWLaunchAd *launchAd);
+
 @interface JWLaunchAd : UIView
-/**
- *  是否隐藏跳过按钮
- */
-@property (nonatomic ,assign) BOOL hideSkip;
+
 /**
  *  广告图
  */
-@property(nonatomic,strong) UIImageView *adImgView;
+@property(strong, nonatomic) UIImageView *adImgView;
+
 /**
  *  广告frame
  */
-@property (nonatomic, assign) CGRect adFrame;
-/**
- *  加载完回调
- */
-@property (nonatomic, copy) void(^LaunchAdClickBlock)(UIImage *image, NSURL *url);
-
-/**
- *  广告点击事件回调
- */
-@property(nonatomic,copy)JWLaunchAdClickBlock clickBlock;
-
-/**
- *  初始化启动页广告
- *
- *  @param frame        frane
- *  @param strUrl       URL
- *  @param adDuration   停留时间
- *  @param adClickBlock 点击广告回调
- *  @param result       加载完成回调
- *
- *  @return self
- */
-+ (instancetype)initImageWithURL:(CGRect)frame strUrl:(NSString *)strUrl adDuration:(NSInteger)adDuration options:(JWWebImageOptions)options result:(JWWebImageCompletionBlock)result;
+@property (assign, nonatomic) CGRect adFrame;
 
 /**
  *  清理缓冲
@@ -69,12 +49,24 @@ typedef void (^JWLaunchAdClickBlock)();
 + (void)clearDiskCache;
 
 /**
- *  内部初始化 - 无需调用
+ *  初始化启动页广告
  *
- *  @param frame      frame
- *  @param adDuration 停留时间
+ *  @param adDuration  停留时间
+ *  @param hideSkip    是否隐藏跳过
+ *  @param setLaunchAd launchAdView
  *
  *  @return self
  */
-- (instancetype)initWithFrame:(CGRect)frame adDuration:(NSInteger)adDuration;
++ (instancetype)initImageWithAttribute:(NSInteger)adDuration hideSkip:(BOOL)hideSkip setLaunchAd:(JWSetLaunchAdBlock)setLaunchAd;
+
+/**
+ *  设置图片
+ *
+ *  @param strURL       URL
+ *  @param options      图片缓冲模式
+ *  @param result       UIImage *image, NSURL *url
+ *  @param adClickBlock 点击图片回调
+ */
+- (void)setWebImageWithURL:(NSString *)strURL options:(JWWebImageOptions)options result:(JWWebImageCompletionBlock)result adClickBlock:(JWLaunchAdClickBlock)adClickBlock;
+
 @end

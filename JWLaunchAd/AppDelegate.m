@@ -10,6 +10,10 @@
 #import "JWLaunchAd.h"
 #import "ViewController.h"
 
+#define kScreen_Bounds  [UIScreen mainScreen].bounds
+#define kScreen_Height  [UIScreen mainScreen].bounds.size.height
+#define kScreen_Width   [UIScreen mainScreen].bounds.size.width
+
 @interface AppDelegate ()
 
 @end
@@ -22,29 +26,31 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     
-    //设置window 根控制器
+    //设置RootViewController
     ViewController *view = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ViewController"];
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:view];
+    
     //清理缓存
-//    [JWLaunchAd clearDiskCache];
+    //[JWLaunchAd clearDiskCache];
     
-    //设置启动页广告图片的url
-//    NSString *imgUrlString =@"http://imgstore.cdn.sogou.com/app/a/100540002/714860.jpg";
+    //1.设置启动页广告图片的url
+    NSString *imgUrlString =@"http://imgstore.cdn.sogou.com/app/a/100540002/714860.jpg";
     //GIF
-    NSString *gifUrlString = @"http://img1.imgtn.bdimg.com/it/u=473895314,616407725&fm=206&gp=0.jpg";
+    //NSString *imgUrlString = @"http://img1.imgtn.bdimg.com/it/u=473895314,616407725&fm=206&gp=0.jpg";
     
-    //初始化启动页广告(初始化后,自动添加至视图,不用手动添加)
-    JWLaunchAd *launchAd = [JWLaunchAd initImageWithURL:CGRectMake(0, 0,self.window.bounds.size.width, self.window.bounds.size.height-150) strUrl:gifUrlString adDuration:10.0 options:JWWebImageDefault result:^(UIImage *image, NSURL *url) {
-        NSLog(@"%@", url);
+    //2.初始化启动页广告(初始化后,自动添加至视图,不用手动添加)
+    [JWLaunchAd initImageWithAttribute:10.0 hideSkip:NO setLaunchAd:^(JWLaunchAd *launchAd) {
+        __block JWLaunchAd *weakSelf = launchAd;
+        [launchAd setWebImageWithURL:imgUrlString options:JWWebImageDefault result:^(UIImage *image, NSURL *url) {
+            //3.异步加载图片完成回调(设置图片尺寸)
+            weakSelf.adFrame = CGRectMake(0, 0, kScreen_Width, kScreen_Height-150);
+        } adClickBlock:^{
+            //4.点击广告回调
+            NSString *url = @"https://www.baidu.com";
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+        }];
     }];
-
-    //是否隐藏跳过按钮（默认显示）
-    launchAd.hideSkip = NO;
-    //广告点击事件
-    launchAd.clickBlock = ^(){
-        NSString *url = @"https://www.baidu.com";
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
-    };
+    //设置window 根控制器
     [self.window makeKeyAndVisible];
     return YES;
 }
