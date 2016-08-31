@@ -1,4 +1,4 @@
-![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/Resources/logo.png)
+![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/Resources/logo.png.png)
 --
 [![Support](https://img.shields.io/badge/support-iOS%207%2B-brightgreen.svg)](https://github.com/JWXIAN/MVCProject)
 [![AppVeyor](https://img.shields.io/appveyor/ci/gruntjs/grunt.svg?maxAge=2592000)](https://github.com/JWXIAN/MVCProject)
