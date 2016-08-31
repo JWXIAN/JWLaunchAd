@@ -2,11 +2,13 @@
 [![Support](https://img.shields.io/badge/support-iOS%207%2B-brightgreen.svg)](https://github.com/JWXIAN/MVCProject)
 [![AppVeyor](https://img.shields.io/appveyor/ci/gruntjs/grunt.svg?maxAge=2592000)](https://github.com/JWXIAN/MVCProject)
 [![Bintray](https://img.shields.io/badge/version-1.2-brightgreen.svg)](https://github.com/JWXIAN/MVCProject)
+
 --
  效果图
 --
 ![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/gif.gif)
 ![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/gif2.gif)
+
 --
   使用方法
 --
