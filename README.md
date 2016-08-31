@@ -16,10 +16,10 @@
    * 1.设置项目启动页为LaunchImage
    设置方法:在Assets.xcassets中新建LaunchImage<br>
    在项目中设置`Launch Images Source`,并将`Launch Screen File`清空
-   ![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/launchImage.png)
+   ![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/Resources/launchImage.png)
  
    * 2.在LaunchImage 添加相应启动图片<br>
-   ![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/assets.png)
+   ![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/Resources/assets.png)
  
    * 3.在AppDelegate中设置window.rootViewController之后调用下面方法
    
