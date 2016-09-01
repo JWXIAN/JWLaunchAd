@@ -43,22 +43,22 @@ API
 --
 Usage
 --
-* 在AppDelegate中设置window.rootViewController之后调用下面方法
+* 在AppDelegate中设置Window.rootViewController之后调用下面方法
 
 ```objc
-//  1.设置启动页广告图片的url
+//  1.设置启动页广告图片的URL
 NSString *imgUrlString =@"http://imgstore.cdn.sogou.com/app/a/100540002/714860.jpg";
     
-//  2.初始化启动页广告(初始化后,自动添加至视图,不用手动添加)
+//  2.初始化启动页
 [JWLaunchAd initImageWithAttribute:6.0 hideSkip:NO setLaunchAd:^(JWLaunchAd *launchAd) {
     __block JWLaunchAd *weakSelf = launchAd;
     [launchAd setWebImageWithURL:imgUrlString options:JWWebImageDefault result:^(UIImage *image, NSURL *url) {
 
-        //  异步加载图片完成回调(可以调整图片尺寸)
+        //  异步缓冲图片完成后调整图片Frame
         weakSelf.launchAdViewFrame = CGRectMake(0, 0, kScreen_Width, kScreen_Height-100);
     } adClickBlock:^{
 
-        //  3.点击广告回调  
+        //  3.广告回调  
         NSString *url = @"https://www.baidu.com";
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
     }];
