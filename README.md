@@ -25,12 +25,12 @@
      NSString *imgUrlString =@"http://imgstore.cdn.sogou.com/app/a/100540002/714860.jpg";
     
     //  2.初始化启动页广告(初始化后,自动添加至视图,不用手动添加)
-    [JWLaunchAd initImageWithAttribute:10.0 hideSkip:NO setLaunchAd:^(JWLaunchAd *launchAd) {
+    [JWLaunchAd initImageWithAttribute:6.0 hideSkip:NO setLaunchAd:^(JWLaunchAd *launchAd) {
         __block JWLaunchAd *weakSelf = launchAd;
         [launchAd setWebImageWithURL:imgUrlString options:JWWebImageDefault result:^(UIImage *image, NSURL *url) {
 
             //  异步加载图片完成回调(可以调整图片尺寸)
-            weakSelf.adFrame = CGRectMake(0, 0, kScreen_Width, kScreen_Height-150);
+            weakSelf.launchAdViewFrame = CGRectMake(0, 0, kScreen_Width, kScreen_Height-100);
         } adClickBlock:^{
 
             //  3.点击广告回调  
