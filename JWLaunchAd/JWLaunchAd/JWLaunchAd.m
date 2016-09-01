@@ -126,7 +126,15 @@
     if(self.adClickBlock) self.adClickBlock();
 }
 
--(UIImage *)launchImage{
+#pragma mark - 获取启动页
+-(UIImage *)getLaunchImage{
+    UIImage *launchImage = [self assetsLaunchImage];
+    if(launchImage) return launchImage;
+    return [self storyboardLaunchImage];
+}
+
+#pragma mark - 获取Assets里LaunchImage
+- (UIImage *)assetsLaunchImage{
     CGSize viewSize = [UIScreen mainScreen].bounds.size;
     NSString *viewOrientation = @"Portrait";//横屏 @"Landscape"
     NSString *launchImageName = nil;
@@ -139,8 +147,28 @@
             return image;
         }
     }
-    DebugLog(@"请添加启动图片");
     return nil;
+}
+
+#pragma mark - 获取Storyboard
+- (UIImage *)storyboardLaunchImage{
+    NSString *storyboardLaunchName = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"UILaunchStoryboardName"];
+    UIViewController *sbLaunchVC = [[UIStoryboard storyboardWithName:storyboardLaunchName bundle:nil] instantiateInitialViewController];
+    if(sbLaunchVC){
+        UIView *view = sbLaunchVC.view;
+        view.frame = kScreen_Bounds;
+        return [self viewConvertImage:view];
+    }
+    return nil;
+}
+#pragma mark - 将View转成Image
+-(UIImage*)viewConvertImage:(UIView*)launchView{
+    CGSize imageSize = launchView.bounds.size;
+    UIGraphicsBeginImageContextWithOptions(imageSize, NO, [UIScreen mainScreen].scale);
+    [launchView.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *launchImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return launchImage;
 }
 
 #pragma mark - 设置广告Frame
@@ -185,7 +213,7 @@
 -(UIImageView *)launchImgView{
     if(!_launchImgView){
         _launchImgView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        _launchImgView.image = [self launchImage];
+        _launchImgView.image = [self getLaunchImage];
     }
     return _launchImgView;
 }
