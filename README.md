@@ -1,7 +1,7 @@
 ![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/Resources/JWLaunchAd.png)
 [![Support](https://img.shields.io/badge/support-iOS%207%2B-brightgreen.svg)](https://github.com/JWXIAN/MVCProject)
 [![AppVeyor](https://img.shields.io/appveyor/ci/gruntjs/grunt.svg?maxAge=2592000)](https://github.com/JWXIAN/MVCProject)
-[![Bintray](https://img.shields.io/badge/version-1.2-brightgreen.svg)](https://github.com/JWXIAN/MVCProject)
+[![Bintray](https://img.shields.io/badge/version-1.3-brightgreen.svg)](https://github.com/JWXIAN/MVCProject)
 
 --
 ![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/Resources/gif.gif)
