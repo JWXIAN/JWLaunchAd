@@ -22,34 +22,36 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
-    
-    //设置RootViewController
+    //  设置RootViewController
     ViewController *view = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ViewController"];
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:view];
+    //  清理缓存
+    //  [JWLaunchAd clearDiskCache];
     
-    //清理缓存
-    //[JWLaunchAd clearDiskCache];
-    
-    //1.设置启动页广告图片的url
+    //  1.设置启动页广告图片的url
     NSString *imgUrlString =@"http://imgstore.cdn.sogou.com/app/a/100540002/714860.jpg";
-    //GIF
-    //NSString *imgUrlString = @"http://img1.imgtn.bdimg.com/it/u=473895314,616407725&fm=206&gp=0.jpg";
+    //  GIF
+    //  NSString *imgUrlString = @"http://img1.imgtn.bdimg.com/it/u=473895314,616407725&fm=206&gp=0.jpg";
     
-    //2.初始化启动页广告(初始化后,自动添加至视图,不用手动添加)
-    [JWLaunchAd initImageWithAttribute:10.0 hideSkip:NO setLaunchAd:^(JWLaunchAd *launchAd) {
+    //  2.初始化启动页广告
+    [JWLaunchAd initImageWithAttribute:6.0 hideSkip:NO setLaunchAd:^(JWLaunchAd *launchAd) {
         __block JWLaunchAd *weakSelf = launchAd;
         [launchAd setWebImageWithURL:imgUrlString options:JWWebImageDefault result:^(UIImage *image, NSURL *url) {
-            //3.异步加载图片完成回调(设置图片尺寸)
-            weakSelf.adFrame = CGRectMake(0, 0, kScreen_Width, kScreen_Height-150);
+            
+            //  3.异步加载图片完成回调(设置图片尺寸)
+            weakSelf.launchAdViewFrame = CGRectMake(0, 0, kScreen_Width, kScreen_Height-100);
         } adClickBlock:^{
-            //4.点击广告回调
+            
+            //  4.点击广告回调
             NSString *url = @"https://www.baidu.com";
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
         }];
     }];
+    
     //设置window 根控制器
     [self.window makeKeyAndVisible];
     return YES;

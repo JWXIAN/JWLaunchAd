@@ -36,12 +36,12 @@ typedef void (^JWSetLaunchAdBlock)(JWLaunchAd *launchAd);
 /**
  *  广告图
  */
-@property(strong, nonatomic) UIImageView *adImgView;
+@property(strong, nonatomic) UIImageView *launchAdImgView;
 
 /**
  *  广告frame
  */
-@property (assign, nonatomic) CGRect adFrame;
+@property (assign, nonatomic) CGRect launchAdViewFrame;
 
 /**
  *  清理缓冲

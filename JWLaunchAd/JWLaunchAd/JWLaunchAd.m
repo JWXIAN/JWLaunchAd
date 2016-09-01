@@ -42,8 +42,8 @@
 @interface JWLaunchAd()
 
 @property(nonatomic,strong)UIImageView *launchImgView;
-@property(nonatomic,strong)UIButton *skipButton;
-@property(nonatomic,copy) dispatch_source_t timer;
+@property(nonatomic,strong)UIButton *btnSkip;
+@property(nonatomic,copy) dispatch_source_t dispatchTimer;
 @property (nonatomic, assign) NSInteger adDuration;             //广告停留时间
 @property (nonatomic, assign) BOOL hideSkip;                    //是否隐藏跳过按钮
 @property (nonatomic, copy) JWLaunchAdClickBlock adClickBlock;  //广告点击
@@ -54,17 +54,17 @@
 - (instancetype)initWithFrame:(CGRect)frame adDuration:(NSInteger)adDuration hideSkip:(BOOL)hideSkip{
     if (self = [super initWithFrame:frame]) {
         self.frame = [UIScreen mainScreen].bounds;
-        _adFrame = frame;
+        _launchAdViewFrame = frame;
         _adDuration = adDuration;
         _hideSkip = hideSkip;
         [self addSubview:self.launchImgView];
-        [self animateEnd];
+        [self dispatch_Remove];
         [self addInWindow];
     }
     return self;
 }
 
--(void)addInWindow{
+- (void)addInWindow{
     //监测DidFinished通知
     [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidFinishLaunchingNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
         //等DidFinished方法结束后,将其添加至window上(不然会检测是否有rootViewController)
@@ -74,46 +74,50 @@
     }];
 }
 
--(void)animateStart{
+- (void)animateStart{
     CGFloat duration = kDefaultDuration;
     if(_adDuration) duration = _adDuration;
     duration= duration/4.0;
     if(duration>1.0) duration=1.0;
     [UIView animateWithDuration:duration animations:^{
-        self.adImgView.alpha = 1;
+        self.launchAdImgView.alpha = 1;
     } completion:^(BOOL finished) {
     }];
 }
 
--(void)dispath_tiemr{
-    NSTimeInterval period = 1.0;//每秒执行
+#pragma mark - 开始计时
+- (void)dispath_Tiemr{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
-    dispatch_source_set_timer(_timer, dispatch_walltime(NULL, 0), period * NSEC_PER_SEC, 0);
+    _dispatchTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    dispatch_source_set_timer(_dispatchTimer, dispatch_walltime(NULL, 0), 1.0 * NSEC_PER_SEC, 0);
     
     __block NSInteger duration = kDefaultDuration;
-    if(_adDuration) duration = _adDuration;
     
-    dispatch_source_set_event_handler(_timer, ^{
-        
+    if(_adDuration) duration = _adDuration;
+    dispatch_source_set_event_handler(_dispatchTimer, ^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            if(duration>0) duration--;
-            [_skipButton setTitle:[NSString stringWithFormat:@"%ld 跳过",duration] forState:UIControlStateNormal];
+            [_btnSkip setTitle:[NSString stringWithFormat:@"%ld 跳过",duration] forState:UIControlStateNormal];
+            if(duration==1){
+                dispatch_source_cancel(_dispatchTimer);
+                [self launchAdRemove];
+            }
+            duration--;
         });
     });
-    dispatch_resume(_timer);
+    dispatch_resume(_dispatchTimer);
 }
 
--(void)animateEnd{
+- (void)dispatch_Remove{
     CGFloat duration = kDefaultDuration;
     if(_adDuration) duration = _adDuration;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self adRemove];
+        [self launchAdRemove];
     });
 }
 
--(void)adRemove{
-    [UIView animateWithDuration:0.8 animations:^{
+#pragma mark - 移除广告
+- (void)launchAdRemove{
+    [UIView animateWithDuration:1.0 animations:^{
         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
         self.transform=CGAffineTransformMakeScale(1.5, 1.5);
         self.alpha = 0;
@@ -122,12 +126,12 @@
     }];
 }
 
--(void)tapAction:(UITapGestureRecognizer *)tap{
+- (void)tapAction:(UITapGestureRecognizer *)tap{
     if(self.adClickBlock) self.adClickBlock();
 }
 
 #pragma mark - 获取启动页
--(UIImage *)getLaunchImage{
+- (UIImage *)getLaunchImage{
     UIImage *launchImage = [self assetsLaunchImage];
     if(launchImage) return launchImage;
     return [self storyboardLaunchImage];
@@ -162,7 +166,7 @@
     return nil;
 }
 #pragma mark - 将View转成Image
--(UIImage*)viewConvertImage:(UIView*)launchView{
+- (UIImage*)viewConvertImage:(UIView*)launchView{
     CGSize imageSize = launchView.bounds.size;
     UIGraphicsBeginImageContextWithOptions(imageSize, NO, [UIScreen mainScreen].scale);
     [launchView.layer renderInContext:UIGraphicsGetCurrentContext()];
@@ -172,9 +176,9 @@
 }
 
 #pragma mark - 设置广告Frame
--(void)setAdFrame:(CGRect)adFrame{
-    _adFrame = adFrame;
-    _adImgView.frame = adFrame;
+- (void)setLaunchAdViewFrame:(CGRect)launchAdViewFrame{
+    _launchAdViewFrame = launchAdViewFrame;
+    _launchAdImgView.frame = launchAdViewFrame;
 }
 
 #pragma mark - 异步加载图片
@@ -191,11 +195,11 @@
 - (void)setWebImageWithURL:(NSString *)strURL options:(JWWebImageOptions)options result:(JWWebImageCompletionBlock)result adClickBlock:(JWLaunchAdClickBlock)adClickBlock{
     [self addAdImgView];
     _adClickBlock = [adClickBlock copy];
-    [_adImgView jw_setImageWithURL:[NSURL URLWithString:strURL] placeholderImage:kPlaceholderImage options:options completed:result?result:nil];
+    [_launchAdImgView jw_setImageWithURL:[NSURL URLWithString:strURL] placeholderImage:kPlaceholderImage options:options completed:result?result:nil];
 }
 #pragma mark - 添加广告图
 - (void)addAdImgView{
-    [self addSubview:self.adImgView];
+    [self addSubview:self.launchAdImgView];
     [self addSubview:self.skipButton];
     [self animateStart];
 }
@@ -209,8 +213,8 @@
     });
 }
 
-#pragma mark - 加载
--(UIImageView *)launchImgView{
+#pragma mark - 启动页
+- (UIImageView *)launchImgView{
     if(!_launchImgView){
         _launchImgView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
         _launchImgView.image = [self getLaunchImage];
@@ -218,35 +222,38 @@
     return _launchImgView;
 }
 
--(UIImageView *)adImgView{
-    if(!_adImgView){
-        _adImgView = [[UIImageView alloc] initWithFrame:_adFrame];
-        _adImgView.userInteractionEnabled = YES;
-        _adImgView.alpha = 0.2;
+#pragma mark - 广告图
+- (UIImageView *)launchAdImgView{
+    if(!_launchAdImgView){
+        _launchAdImgView = [[UIImageView alloc] initWithFrame:_launchAdViewFrame];
+        _launchAdImgView.alpha = 0.2;
+        _launchAdImgView.userInteractionEnabled = YES;
         UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
-        [_adImgView addGestureRecognizer:tap];
+        [_launchAdImgView addGestureRecognizer:tap];
     }
-    return _adImgView;
+    return _launchAdImgView;
 }
 
--(UIButton *)skipButton{
-    if(!_skipButton){
-        _skipButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _skipButton.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-70,30, 60, 30);
-        _skipButton.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
-        _skipButton.layer.cornerRadius = 15;
-        _skipButton.layer.masksToBounds = YES;
+#pragma mark - 跳过
+- (UIButton *)skipButton{
+    if(!_btnSkip){
+        _btnSkip = [UIButton buttonWithType:UIButtonTypeCustom];
+        _btnSkip.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-70,30, 60, 30);
+        _btnSkip.hidden = _hideSkip;
+        _btnSkip.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
+        _btnSkip.layer.cornerRadius = 15;
+        _btnSkip.layer.masksToBounds = YES;
+        _btnSkip.titleLabel.font = [UIFont systemFontOfSize:13.5];
         NSInteger duration = kDefaultDuration;
         if(_adDuration) duration = _adDuration;
-        _skipButton.hidden = _hideSkip;
-        [_skipButton setTitle:[NSString stringWithFormat:@"%ld 跳过",duration] forState:UIControlStateNormal];
-        _skipButton.titleLabel.font = [UIFont systemFontOfSize:13.5];
-        [_skipButton addTarget:self action:@selector(adRemove) forControlEvents:UIControlEventTouchUpInside];
-        [self dispath_tiemr];
+        [_btnSkip setTitle:[NSString stringWithFormat:@"%ld 跳过",duration] forState:UIControlStateNormal];
+        [_btnSkip addTarget:self action:@selector(launchAdRemove) forControlEvents:UIControlEventTouchUpInside];
+        [self dispath_Tiemr];
     }
-    return _skipButton;
+    return _btnSkip;
 }
--(void)dealloc{
+
+- (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 @end
