@@ -8,17 +8,41 @@
 ![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/Resources/gif2.gif)
 
 --
-  集成步骤:
+API
 --
-   * 1.设置项目启动页为LaunchImage
-        设置方法:在Assets.xcassets中新建LaunchImage<br>
-        在项目中设置`Launch Images Source`,并将`Launch Screen File`清空
-        ![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/Resources/launchImage.png)
- 
-   * 2.在LaunchImage 添加相应启动图片<br>
-        ![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/Resources/assets.png)
- 
-   * 3.在AppDelegate中设置window.rootViewController之后调用下面方法
+```objc
+/**
+     *  初始化启动页广告
+     *
+     *  @param adDuration  停留时间
+     *  @param hideSkip    是否隐藏跳过
+     *  @param setLaunchAd launchAdView
+     *
+     *  @return self
+     */
+    + (instancetype)initImageWithAttribute:(NSInteger)adDuration hideSkip:(BOOL)hideSkip setLaunchAd:(JWSetLaunchAdBlock)setLaunchAd;
+
+    /**
+     *  设置图片
+     *
+     *  @param strURL       URL
+     *  @param options      图片缓冲模式
+     *  @param result       UIImage *image, NSURL *url
+     *  @param adClickBlock 点击图片回调
+     */
+    - (void)setWebImageWithURL:(NSString *)strURL options:(JWWebImageOptions)options result:(JWWebImageCompletionBlock)result adClickBlock:(JWLaunchAdClickBlock)adClickBlock;
+
+    /**
+     *  广告图Frame
+     */
+    @property (assign, nonatomic) CGRect launchAdViewFrame;
+
+```
+
+--
+Usage
+--
+   * 在AppDelegate中设置window.rootViewController之后调用下面方法
 
 ```objc
     //  1.设置启动页广告图片的url
