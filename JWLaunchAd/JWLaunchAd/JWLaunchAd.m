@@ -96,7 +96,7 @@
     if(_adDuration) duration = _adDuration;
     dispatch_source_set_event_handler(_dispatchTimer, ^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_btnSkip setTitle:[NSString stringWithFormat:@"%ld 跳过",duration] forState:UIControlStateNormal];
+            [_btnSkip setTitle:[NSString stringWithFormat:@"%ld 跳过",(long)duration] forState:UIControlStateNormal];
             if(duration==1){
                 dispatch_source_cancel(_dispatchTimer);
                 [self launchAdRemove];
@@ -246,7 +246,7 @@
         _btnSkip.titleLabel.font = [UIFont systemFontOfSize:13.5];
         NSInteger duration = kDefaultDuration;
         if(_adDuration) duration = _adDuration;
-        [_btnSkip setTitle:[NSString stringWithFormat:@"%ld 跳过",duration] forState:UIControlStateNormal];
+        [_btnSkip setTitle:[NSString stringWithFormat:@"%ld 跳过",(long)duration] forState:UIControlStateNormal];
         [_btnSkip addTarget:self action:@selector(launchAdRemove) forControlEvents:UIControlEventTouchUpInside];
         [self dispath_Tiemr];
     }
