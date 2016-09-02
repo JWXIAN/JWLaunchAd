@@ -68,24 +68,24 @@ NSString *imgUrlString =@"http://imgstore.cdn.sogou.com/app/a/100540002/714860.j
 
 ```
 
-安装
+Installation
 ==============
 
 ### CocoaPods
 
-1. 在 Podfile 中添加  `pod 'JWLaunchAd'`。
-2. 执行 `pod install` 或 `pod update`。
-3. 导入 `JWLaunchAd.h`。
+1. Add pod 'JWLaunchAd' to your Podfile.
+2. Run pod install or pod update.
+3. Import `JWLaunchAd.h`。
 
-### 手动安装
+### Manually
 
-1. 将 JWLaunchAd 内的源文件添加(拖放)到你的工程。
-2. 导入 `JWLaunchAd.h`。
+1. Add the source files to your Xcode project.
+2. Import `JWLaunchAd.h`。
 
-系统要求
+Requirements
 ==============
-该项目最低支持 `iOS 7.0`。
+This library requires `iOS 7.0+` .
 
-许可证
+License
 ==============
-JWLaunchAd 使用 MIT 许可证，详情见 LICENSE 文件。
+JWLaunchAd is provided under the MIT license. See LICENSE file for details.
