@@ -73,14 +73,14 @@ Installation
 
 ### CocoaPods
 
-1. Add pod 'JWLaunchAd' to your Podfile.
+1. Add `pod 'JWLaunchAd'` to your Podfile.
 2. Run pod install or pod update.
-3. Import `JWLaunchAd.h`。
+3. Import `JWLaunchAd.h`.
 
 ### Manually
 
 1. Add the source files to your Xcode project.
-2. Import `JWLaunchAd.h`。
+2. Import `JWLaunchAd.h`.
 
 Requirements
 ==============
