@@ -7,8 +7,8 @@
 
 Demo Project
 ==============
-![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/Resources/gif.gif)
-![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/Resources/gif2.gif)
+![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/Resources/1.gif)
+![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/Resources/2.gif)
 
 API
 ==============
