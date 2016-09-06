@@ -34,6 +34,15 @@ API
  */
 - (void)setWebImageWithURL:(NSString *)strURL options:(JWWebImageOptions)options result:(JWWebImageCompletionBlock)result adClickBlock:(JWLaunchAdClickBlock)adClickBlock;
 
+/**
+*  设置动画跳过属性
+*
+*  @param strokeColor     转动颜色
+*  @param lineWidth       宽度
+*  @param backgroundColor 背景色
+*  @param textColor       字体颜色
+*/
+- (void)setAnimationSkipWithAttribute:(UIColor *)strokeColor lineWidth:(NSInteger)lineWidth backgroundColor:(UIColor *)backgroundColor textColor:(UIColor *)textColor;
 
 /**
  *  广告图Frame
@@ -52,8 +61,11 @@ Usage
 NSString *imgUrlString =@"http://imgstore.cdn.sogou.com/app/a/100540002/714860.jpg";
     
 //  2.初始化启动页
-[JWLaunchAd initImageWithAttribute:6.0 hideSkip:NO setLaunchAd:^(JWLaunchAd *launchAd) {
+[JWLaunchAd initImageWithAttribute:6.0 showSkipType:SkipShowTypeAnimation setLaunchAd:^(JWLaunchAd *launchAd) {
     __block JWLaunchAd *weakSelf = launchAd;
+    //如果选择 SkipShowTypeAnimation 需要设置动画跳过按钮的属性
+    [weakSelf setAnimationSkipWithAttribute:[UIColor redColor] lineWidth:3.0 backgroundColor:nil textColor:nil];
+
     [launchAd setWebImageWithURL:imgUrlString options:JWWebImageDefault result:^(UIImage *image, NSURL *url) {
 
         //  异步缓冲图片完成后调整图片Frame

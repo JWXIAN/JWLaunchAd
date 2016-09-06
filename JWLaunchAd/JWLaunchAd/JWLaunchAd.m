@@ -47,16 +47,18 @@
 @property (nonatomic, assign) NSInteger adDuration;             //广告停留时间
 @property (nonatomic, assign) BOOL hideSkip;                    //是否隐藏跳过按钮
 @property (nonatomic, copy) JWLaunchAdClickBlock adClickBlock;  //广告点击
+@property (nonatomic, assign) SkipShowType showSkipType;
+@property(nonatomic,strong) CAShapeLayer *shapelayer;
 @end
 
 @implementation JWLaunchAd
 
-- (instancetype)initWithFrame:(CGRect)frame adDuration:(NSInteger)adDuration hideSkip:(BOOL)hideSkip{
+- (instancetype)initWithFrame:(CGRect)frame adDuration:(NSInteger)adDuration showSkipType:(SkipShowType)showSkipType{
     if (self = [super initWithFrame:frame]) {
-        self.frame = [UIScreen mainScreen].bounds;
+        self.frame = kScreen_Bounds;
         _launchAdViewFrame = frame;
         _adDuration = adDuration;
-        _hideSkip = hideSkip;
+        _showSkipType = showSkipType;
         [self addSubview:self.launchImgView];
         [self dispatch_Remove];
         [self addInWindow];
@@ -85,6 +87,33 @@
     }];
 }
 
+#pragma mark - 动画跳过
+- (void)layoutSubviews{
+    if(_showSkipType==2) {
+        _btnSkip.frame = CGRectMake(kScreen_Width - 40,40, 30, 30);
+        [self animation];
+    }
+}
+//添加动画
+-(void)animation{
+    CABasicAnimation *pathAnimaton = [CABasicAnimation animationWithKeyPath:@"strokeStart"];
+    pathAnimaton.duration = _adDuration-1;
+    pathAnimaton.fromValue = @(0.0f);
+    pathAnimaton.toValue = @(1.0f);
+    [self.shapelayer addAnimation:pathAnimaton forKey:nil];
+}
+//设置属性
+- (void)setAnimationSkipWithAttribute:(UIColor *)strokeColor lineWidth:(NSInteger)lineWidth  backgroundColor:(UIColor *)backgroundColor textColor:(UIColor *)textColor{
+    self.shapelayer = [CAShapeLayer layer];
+    UIBezierPath *BezierPath = [UIBezierPath bezierPathWithOvalInRect:self.btnSkip.bounds];
+    self.shapelayer.lineWidth = lineWidth?lineWidth:3.0;
+    self.shapelayer.strokeColor = [strokeColor?strokeColor:[UIColor redColor] CGColor];
+    self.shapelayer.fillColor = [UIColor clearColor].CGColor;
+    self.shapelayer.path = BezierPath.CGPath;
+    self.btnSkip.backgroundColor = backgroundColor?backgroundColor:[[UIColor blackColor] colorWithAlphaComponent:0.4];
+    [self.btnSkip.layer addSublayer:self.shapelayer];
+}
+
 #pragma mark - 开始计时
 - (void)dispath_Tiemr{
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -96,7 +125,7 @@
     if(_adDuration) duration = _adDuration;
     dispatch_source_set_event_handler(_dispatchTimer, ^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_btnSkip setTitle:[NSString stringWithFormat:@"%ld 跳过",(long)duration] forState:UIControlStateNormal];
+            [_btnSkip setTitle:_showSkipType==1?[NSString stringWithFormat:@"%ld 跳过",(long)duration]:@"跳过" forState:UIControlStateNormal];
             if(duration==1){
                 dispatch_source_cancel(_dispatchTimer);
                 [self launchAdRemove];
@@ -123,6 +152,7 @@
         self.alpha = 0;
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
+        if(self.shapelayer) [self.shapelayer removeAllAnimations];
     }];
 }
 
@@ -182,11 +212,11 @@
 }
 
 #pragma mark - 异步加载图片
-+ (instancetype)initImageWithAttribute:(NSInteger)adDuration hideSkip:(BOOL)hideSkip setLaunchAd:(JWSetLaunchAdBlock)setLaunchAd{
++ (instancetype)initImageWithAttribute:(NSInteger)adDuration showSkipType:(SkipShowType)showSkipType setLaunchAd:(JWSetLaunchAdBlock)setLaunchAd{
     static JWLaunchAd *launchAd = nil;
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
-        launchAd = [[self alloc] initWithFrame:kScreen_Bounds adDuration:adDuration hideSkip:hideSkip];
+        launchAd = [[self alloc] initWithFrame:kScreen_Bounds adDuration:adDuration showSkipType:showSkipType];
         if(setLaunchAd) setLaunchAd(launchAd);
     });
     return launchAd;
@@ -216,7 +246,7 @@
 #pragma mark - 启动页
 - (UIImageView *)launchImgView{
     if(!_launchImgView){
-        _launchImgView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        _launchImgView = [[UIImageView alloc] initWithFrame:kScreen_Bounds];
         _launchImgView.image = [self getLaunchImage];
     }
     return _launchImgView;
@@ -238,15 +268,13 @@
 - (UIButton *)btnSkip{
     if(!_btnSkip){
         _btnSkip = [UIButton buttonWithType:UIButtonTypeCustom];
-        _btnSkip.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-70,30, 60, 30);
-        _btnSkip.hidden = _hideSkip;
-        _btnSkip.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
-        _btnSkip.layer.cornerRadius = 15;
-        _btnSkip.layer.masksToBounds = YES;
-        _btnSkip.titleLabel.font = [UIFont systemFontOfSize:13.5];
+        _btnSkip.frame = _showSkipType==1?CGRectMake(kScreen_Width-70,30, 60, 30):CGRectMake(kScreen_Width-50,30, 30, 30);
+        _btnSkip.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
+        _btnSkip.layer.cornerRadius = _showSkipType==1?15:15;
+        _btnSkip.titleLabel.font = [UIFont systemFontOfSize:_showSkipType==1?13.5:12];
         NSInteger duration = kDefaultDuration;
         if(_adDuration) duration = _adDuration;
-        [_btnSkip setTitle:[NSString stringWithFormat:@"%ld 跳过",(long)duration] forState:UIControlStateNormal];
+        [_btnSkip setTitle:_showSkipType==1?[NSString stringWithFormat:@"%ld 跳过",(long)duration]:@"跳过" forState:UIControlStateNormal];
         [_btnSkip addTarget:self action:@selector(launchAdRemove) forControlEvents:UIControlEventTouchUpInside];
         [self dispath_Tiemr];
     }

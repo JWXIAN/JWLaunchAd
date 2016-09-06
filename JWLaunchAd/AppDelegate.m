@@ -38,8 +38,13 @@
     //  NSString *imgUrlString = @"http://img1.imgtn.bdimg.com/it/u=473895314,616407725&fm=206&gp=0.jpg";
     
     //  2.初始化启动页广告
-    [JWLaunchAd initImageWithAttribute:6.0 hideSkip:NO setLaunchAd:^(JWLaunchAd *launchAd) {
+    [JWLaunchAd initImageWithAttribute:6.0 showSkipType:SkipShowTypeAnimation setLaunchAd:^(JWLaunchAd *launchAd) {
         __block JWLaunchAd *weakSelf = launchAd;
+        
+        //如果选择 SkipShowTypeAnimation 需要设置动画跳过按钮的属性
+        [weakSelf setAnimationSkipWithAttribute:[UIColor redColor] lineWidth:3.0 backgroundColor:nil textColor:nil];
+        
+        
         [launchAd setWebImageWithURL:imgUrlString options:JWWebImageDefault result:^(UIImage *image, NSURL *url) {
             
             //  3.异步加载图片完成回调(设置图片尺寸)
