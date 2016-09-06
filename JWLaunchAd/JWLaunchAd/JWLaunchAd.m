@@ -200,7 +200,7 @@
 #pragma mark - 添加广告图
 - (void)addAdImgView{
     [self addSubview:self.launchAdImgView];
-    [self addSubview:self.skipButton];
+    [self addSubview:self.btnSkip];
     [self animateStart];
 }
 #pragma mark - 清理缓冲
@@ -235,7 +235,7 @@
 }
 
 #pragma mark - 跳过
-- (UIButton *)skipButton{
+- (UIButton *)btnSkip{
     if(!_btnSkip){
         _btnSkip = [UIButton buttonWithType:UIButtonTypeCustom];
         _btnSkip.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-70,30, 60, 30);
