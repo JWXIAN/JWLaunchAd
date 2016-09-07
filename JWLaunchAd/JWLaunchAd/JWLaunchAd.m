@@ -104,14 +104,16 @@
 }
 //设置属性
 - (void)setAnimationSkipWithAttribute:(UIColor *)strokeColor lineWidth:(NSInteger)lineWidth  backgroundColor:(UIColor *)backgroundColor textColor:(UIColor *)textColor{
-    self.shapelayer = [CAShapeLayer layer];
-    UIBezierPath *BezierPath = [UIBezierPath bezierPathWithOvalInRect:self.btnSkip.bounds];
-    self.shapelayer.lineWidth = lineWidth?lineWidth:3.0;
-    self.shapelayer.strokeColor = [strokeColor?strokeColor:[UIColor redColor] CGColor];
-    self.shapelayer.fillColor = [UIColor clearColor].CGColor;
-    self.shapelayer.path = BezierPath.CGPath;
-    self.btnSkip.backgroundColor = backgroundColor?backgroundColor:[[UIColor blackColor] colorWithAlphaComponent:0.4];
-    [self.btnSkip.layer addSublayer:self.shapelayer];
+    if(self.showSkipType == SkipShowTypeAnimation){
+        self.shapelayer = [CAShapeLayer layer];
+        UIBezierPath *BezierPath = [UIBezierPath bezierPathWithOvalInRect:self.btnSkip.bounds];
+        self.shapelayer.lineWidth = lineWidth?lineWidth:3.0;
+        self.shapelayer.strokeColor = [strokeColor?strokeColor:[UIColor redColor] CGColor];
+        self.shapelayer.fillColor = [UIColor clearColor].CGColor;
+        self.shapelayer.path = BezierPath.CGPath;
+        self.btnSkip.backgroundColor = backgroundColor?backgroundColor:[[UIColor blackColor] colorWithAlphaComponent:0.4];
+        [self.btnSkip.layer addSublayer:self.shapelayer];
+    }
 }
 
 #pragma mark - 开始计时
