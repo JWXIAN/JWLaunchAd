@@ -1,4 +1,4 @@
-![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/Resources/JWLaunchAd.png)
+![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/Resources/logo.png)
 ==============
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/JWXIAN/JWLaunchAd/blob/master/LICENSE)&nbsp;
 [![Support](https://img.shields.io/badge/support-iOS%207%2B-brightgreen.svg)](https://github.com/JWXIAN/MVCProject)
