@@ -34,8 +34,8 @@ typedef void (^JWSetLaunchAdBlock)(JWLaunchAd *launchAd);
 typedef NS_ENUM(NSUInteger, SkipShowType)
 {
     SkipShowTypeNone = 0,       /** 无跳过 */
-    SkipShowTypeDefault,        /** 默认:跳过+倒计时 */
-    SkipShowTypeAnimation,      /** 动画跳过 */
+    SkipShowTypeDefault,        /** 跳过+倒计时*/
+    SkipShowTypeAnimation,      /** 动画跳过 ⭕️ */
 };
 
 @interface JWLaunchAd : UIView
