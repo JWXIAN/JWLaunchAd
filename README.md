@@ -1,10 +1,10 @@
-![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/Resources/NewLogo.png)
+![image](https://github.com/JWXIAN/JWLaunchAd/blob/master/JWLaunchAd/Resources/logo.png)
+
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/JWXIAN/JWLaunchAd/blob/master/LICENSE)&nbsp;
 [![Support](https://img.shields.io/badge/support-iOS%207%2B-brightgreen.svg)](https://github.com/JWXIAN/MVCProject)
 [![CocoaPods](https://img.shields.io/badge/pod-1.3.3-blue.svg)](http://cocoapods.org/?q=JWLaunchAd)&nbsp;
 [![AppVeyor](https://img.shields.io/appveyor/ci/gruntjs/grunt.svg?maxAge=2592000)](https://github.com/JWXIAN/MVCProject)
 
-==============
 
 Demo Project
 ==============
