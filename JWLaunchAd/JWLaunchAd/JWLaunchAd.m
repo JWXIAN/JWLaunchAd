@@ -41,14 +41,14 @@
 
 @interface JWLaunchAd()
 
-@property(nonatomic,strong)UIImageView *launchImgView;
-@property(nonatomic,strong)UIButton *btnSkip;
-@property(nonatomic,copy) dispatch_source_t dispatchTimer;
-@property (nonatomic, assign) NSInteger adDuration;             //广告停留时间
-@property (nonatomic, assign) BOOL hideSkip;                    //是否隐藏跳过按钮
-@property (nonatomic, copy) JWLaunchAdClickBlock adClickBlock;  //广告点击
-@property (nonatomic, assign) SkipShowType showSkipType;
-@property(nonatomic,strong) CAShapeLayer *shapelayer;
+@property (nonatomic,strong ) UIImageView          *launchImgView;
+@property (nonatomic,strong ) UIButton             *btnSkip;
+@property (nonatomic,copy   ) dispatch_source_t    dispatchTimer;
+@property (nonatomic, assign) NSInteger            adDuration;      //广告停留时间
+@property (nonatomic, assign) BOOL                 hideSkip;        //是否隐藏跳过按钮
+@property (nonatomic, copy  ) JWLaunchAdClickBlock adClickBlock;    //广告点击
+@property (nonatomic, assign) SkipShowType         showSkipType;
+@property (nonatomic,strong ) CAShapeLayer         *shapelayer;
 @end
 
 @implementation JWLaunchAd
