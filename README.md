@@ -24,7 +24,7 @@ API
  *
  *  @return self
  */
-+ (instancetype)initImageWithAttribute:(NSInteger)adDuration hideSkip:(BOOL)hideSkip setLaunchAd:(JWSetLaunchAdBlock)setLaunchAd;
++ (instancetype)initImageWithAttribute:(NSInteger)adDuration showSkipType:(SkipShowType)showSkipType setLaunchAd:(JWSetLaunchAdBlock)setLaunchAd;
 
 /**
  *  设置图片
